@@ -70,8 +70,9 @@ func TestJsonSchemaConstrainedCompletionsAreGenerated(t *testing.T) {
 
 	var person fixtureNamedPersonWithAge
 
-	UnmarshalToStruct(extractorResult, &person)
+	err := UnmarshalToStruct(extractorResult, &person)
 
+	assert.Nil(t, err)
 	assert.Equal(t, "John", person.Name)
 	assert.Equal(t, "Doe", person.Surname)
 	assert.Equal(t, 40, person.Age)
@@ -116,8 +117,9 @@ func TestJsonSchemaNestedConstraints(t *testing.T) {
 
 	var blogPost fixtureBlogPost
 
-	UnmarshalToStruct(extractorResult, &blogPost)
+	err := UnmarshalToStruct(extractorResult, &blogPost)
 
+	assert.Nil(t, err)
 	assert.Equal(t, "How to write a blog post?", string(blogPost.Title))
 	assert.Equal(t, "You need to come up with something interesting.", string(blogPost.Content))
 	assert.Equal(t, []string{"blogging", "wow", "excitement"}, blogPost.Tags)

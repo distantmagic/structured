@@ -7,12 +7,12 @@ import (
 	"github.com/santhosh-tekuri/jsonschema/v5"
 )
 
-type EntityValidatorBuilder struct {
+type EntityJsonSchemaValidatorBuilder struct {
 }
 
-func (self *EntityValidatorBuilder) BuildEntityValidator(
+func (self *EntityJsonSchemaValidatorBuilder) BuildEntityJsonSchemaValidator(
 	jsonSchema any,
-) (*EntityValidator, error) {
+) (*EntityJsonSchemaValidator, error) {
 	marshaledJsonSchema, err := json.Marshal(jsonSchema)
 
 	if err != nil {
@@ -36,7 +36,7 @@ func (self *EntityValidatorBuilder) BuildEntityValidator(
 		return nil, err
 	}
 
-	entityValidator := &EntityValidator{
+	entityValidator := &EntityJsonSchemaValidator{
 		CompiledJsonSchema:  schema,
 		MarshaledJsonSchema: marshaledJsonSchema,
 	}

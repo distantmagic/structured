@@ -19,8 +19,8 @@ func (self *EntityExtractor) ExtractFromString(
 ) {
 	defer close(responseChannel)
 
-	entityValidatorBuilder := &EntityValidatorBuilder{}
-	entityValidator, err := entityValidatorBuilder.BuildEntityValidator(jsonSchema)
+	entityValidatorBuilder := &EntityJsonSchemaValidatorBuilder{}
+	entityValidator, err := entityValidatorBuilder.BuildEntityJsonSchemaValidator(jsonSchema)
 
 	if err != nil {
 		responseChannel <- EntityExtractorResult{

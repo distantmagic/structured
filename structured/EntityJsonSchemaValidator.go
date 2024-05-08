@@ -4,7 +4,7 @@ import (
 	"github.com/santhosh-tekuri/jsonschema/v5"
 )
 
-type EntityValidator struct {
+type EntityJsonSchemaValidator struct {
 	CompiledJsonSchema  *jsonschema.Schema
 	MarshaledJsonSchema []byte
 }
