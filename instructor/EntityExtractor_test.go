@@ -1,13 +1,12 @@
 package instructor
 
 import (
-	"fmt"
 	"net/http"
 	"testing"
 
 	"github.com/distantmagic/paddler/llamacpp"
 	"github.com/distantmagic/paddler/netcfg"
-	// "github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 var entityExtractor *EntityExtractor = &EntityExtractor{
@@ -46,11 +45,15 @@ func TestJsonSchemaConstrainedCompletionsAreGenerated(t *testing.T) {
 		"I am John Doe - living for 40 years and I still like to play chess.",
 	)
 
+	returns := 0
+
 	for result := range responseChannel {
 		if result.Error != nil {
 			t.Fatal(result.Error)
 		}
 
-		fmt.Print(result.Result)
+		returns += 1
 	}
+
+	assert.Equal(t, 1, returns)
 }

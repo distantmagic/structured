@@ -76,3 +76,28 @@ for result := range responseChannel {
 	fmt.Print(result.Result)
 }
 ```
+
+### Mapping Extracted Result onto an Arbitrary Struct
+
+Once you obtain the result:
+
+```go
+type myTestPerson struct {
+	Name   string `json:"name"`
+	Surname string `json:"surname"`
+	Age    int    `json:"age"`
+}
+
+func DoUnmarshalsToStruct(result EntityExtractorResult) {
+	var person myTestPerson
+
+	err := UnmarshalToStruct(result, &person)
+
+	if nil != err {
+		panic(err)
+	}
+
+	person.Name // John
+	person.Surname // Doe
+}
+```

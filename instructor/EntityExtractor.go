@@ -120,6 +120,7 @@ func (self *EntityExtractor) ExtractFromString(
 	}
 
 	responseChannel <- EntityExtractorResult{
-		Result: unmarshaledLlamaResponse,
+		Content: acc,
+		Entity:  unmarshaledLlamaResponse,
 	}
 }

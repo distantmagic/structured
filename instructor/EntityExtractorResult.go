@@ -1,6 +1,7 @@
 package instructor
 
 type EntityExtractorResult struct {
-	Error  error
-	Result any
+	Content string
+	Error   error
+	Entity  any
 }
