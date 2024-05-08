@@ -39,6 +39,7 @@ var entityExtractor *EntityExtractor = &structured.EntityExtractor{
 			},
 		},
 	},
+	MaxRetries: 3,
 }
 ```
 

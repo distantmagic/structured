@@ -6,18 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type myTestPerson struct {
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Age     int    `json:"age"`
-}
-
 func TestUnmarshalsToStruct(t *testing.T) {
 	result := EntityExtractorResult{
 		Content: "{\"name\":\"John\",\"surname\":\"Doe\",\"age\":40}",
 	}
 
-	var person myTestPerson
+	var person fixtureNamedPersonWithAge
 
 	err := UnmarshalToStruct(result, &person)
 

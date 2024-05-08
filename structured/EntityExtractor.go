@@ -1,16 +1,15 @@
 package structured
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 
 	"github.com/distantmagic/paddler/llamacpp"
-	"github.com/santhosh-tekuri/jsonschema/v5"
 )
 
 type EntityExtractor struct {
 	LlamaCppClient *llamacpp.LlamaCppClient
+	MaxRetries     int
 }
 
 func (self *EntityExtractor) ExtractFromString(
@@ -20,32 +19,8 @@ func (self *EntityExtractor) ExtractFromString(
 ) {
 	defer close(responseChannel)
 
-	marshaledSchema, err := json.Marshal(jsonSchema)
-
-	if err != nil {
-		responseChannel <- EntityExtractorResult{
-			Error: err,
-		}
-
-		return
-	}
-
-	jsonSchemaCompiler := jsonschema.NewCompiler()
-
-	err = jsonSchemaCompiler.AddResource(
-		"schema.json",
-		bytes.NewReader(marshaledSchema),
-	)
-
-	if err != nil {
-		responseChannel <- EntityExtractorResult{
-			Error: err,
-		}
-
-		return
-	}
-
-	schema, err := jsonSchemaCompiler.Compile("schema.json")
+	entityValidatorBuilder := &EntityValidatorBuilder{}
+	entityValidator, err := entityValidatorBuilder.BuildEntityValidator(jsonSchema)
 
 	if err != nil {
 		responseChannel <- EntityExtractorResult{
@@ -63,20 +38,22 @@ func (self *EntityExtractor) ExtractFromString(
 			JsonSchema: jsonSchema,
 			NPredict:   100,
 			Prompt: fmt.Sprintf(
-				`User will provide the phrase. Respond with JSON matching the
-				schema. Fill the schema with the infromation provided in the
-				user phrase.
+				`[INST]
+				User will provide the phrase. Respond with valid JSON matching
+				the schema. Fill the schema with the infromation provided in
+				the user phrase. Keep user's input unchanged.
 
-				---
 				JSON schema:
+				---
 				%s
 				---
+				[/INST]
 
-				---
 				User phrase:
+				---
 				%s
 				---`,
-				marshaledSchema,
+				entityValidator.MarshaledJsonSchema,
 				userInput,
 			),
 			Stream: true,
@@ -109,7 +86,7 @@ func (self *EntityExtractor) ExtractFromString(
 		return
 	}
 
-	err = schema.Validate(unmarshaledLlamaResponse)
+	err = entityValidator.CompiledJsonSchema.Validate(unmarshaledLlamaResponse)
 
 	if err != nil {
 		responseChannel <- EntityExtractorResult{
