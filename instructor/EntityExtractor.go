@@ -9,12 +9,12 @@ import (
 	"github.com/santhosh-tekuri/jsonschema/v5"
 )
 
-type JsonSchemaMapper struct {
+type EntityExtractor struct {
 	LlamaCppClient *llamacpp.LlamaCppClient
 }
 
-func (self *JsonSchemaMapper) MapToSchema(
-	responseChannel chan JsonSchemaMapperResult,
+func (self *EntityExtractor) ExtractFromString(
+	responseChannel chan EntityExtractorResult,
 	jsonSchema any,
 	userInput string,
 ) {
@@ -23,7 +23,7 @@ func (self *JsonSchemaMapper) MapToSchema(
 	marshaledSchema, err := json.Marshal(jsonSchema)
 
 	if err != nil {
-		responseChannel <- JsonSchemaMapperResult{
+		responseChannel <- EntityExtractorResult{
 			Error: err,
 		}
 
@@ -38,7 +38,7 @@ func (self *JsonSchemaMapper) MapToSchema(
 	)
 
 	if err != nil {
-		responseChannel <- JsonSchemaMapperResult{
+		responseChannel <- EntityExtractorResult{
 			Error: err,
 		}
 
@@ -48,7 +48,7 @@ func (self *JsonSchemaMapper) MapToSchema(
 	schema, err := jsonSchemaCompiler.Compile("schema.json")
 
 	if err != nil {
-		responseChannel <- JsonSchemaMapperResult{
+		responseChannel <- EntityExtractorResult{
 			Error: err,
 		}
 
@@ -87,7 +87,7 @@ func (self *JsonSchemaMapper) MapToSchema(
 
 	for token := range llamaCppCompletionResponseChannel {
 		if token.Error != nil {
-			responseChannel <- JsonSchemaMapperResult{
+			responseChannel <- EntityExtractorResult{
 				Error: token.Error,
 			}
 
@@ -102,7 +102,7 @@ func (self *JsonSchemaMapper) MapToSchema(
 	err = json.Unmarshal([]byte(acc), &unmarshaledLlamaResponse)
 
 	if err != nil {
-		responseChannel <- JsonSchemaMapperResult{
+		responseChannel <- EntityExtractorResult{
 			Error: err,
 		}
 
@@ -112,14 +112,14 @@ func (self *JsonSchemaMapper) MapToSchema(
 	err = schema.Validate(unmarshaledLlamaResponse)
 
 	if err != nil {
-		responseChannel <- JsonSchemaMapperResult{
+		responseChannel <- EntityExtractorResult{
 			Error: err,
 		}
 
 		return
 	}
 
-	responseChannel <- JsonSchemaMapperResult{
+	responseChannel <- EntityExtractorResult{
 		Result: unmarshaledLlamaResponse,
 	}
 }

@@ -10,7 +10,7 @@ import (
 	// "github.com/stretchr/testify/assert"
 )
 
-var jsonSchemaMapper *JsonSchemaMapper = &JsonSchemaMapper{
+var entityExtractor *EntityExtractor = &EntityExtractor{
 	LlamaCppClient: &llamacpp.LlamaCppClient{
 		HttpClient: http.DefaultClient,
 		LlamaCppConfiguration: &llamacpp.LlamaCppConfiguration{
@@ -24,9 +24,9 @@ var jsonSchemaMapper *JsonSchemaMapper = &JsonSchemaMapper{
 }
 
 func TestJsonSchemaConstrainedCompletionsAreGenerated(t *testing.T) {
-	responseChannel := make(chan JsonSchemaMapperResult)
+	responseChannel := make(chan EntityExtractorResult)
 
-	go jsonSchemaMapper.MapToSchema(
+	go entityExtractor.ExtractFromString(
 		responseChannel,
 		map[string]any{
 			"type": "object",

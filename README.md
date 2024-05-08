@@ -5,13 +5,18 @@ Go converstion of https://github.com/jxnl/instructor/
 Same features, Go-like API. Model agnostic - maps data from arbitrary JSON
 schema to arbitrary Go struct.
 
-Focused on llama.cpp.
+Focused on [llama.cpp](https://github.com/ggerganov/llama.cpp). Support for
+other kind of vendor APIs (like OpenAI or Anthropic might be added in the
+future.
 
 ## Usage
 
 API can probably change with time until all features are implemented.
 
 ### Initializing the Mapper
+
+Point it to your local [llama.cpp](https://github.com/ggerganov/llama.cpp)
+instance:
 
 ```go
 import (
@@ -23,7 +28,7 @@ import (
 	"github.com/distantmagic/paddler/netcfg"
 )
 
-var jsonSchemaMapper *JsonSchemaMapper = &JsonSchemaMapper{
+var entityExtractor *EntityExtractor = &EntityExtractor{
 	LlamaCppClient: &llamacpp.LlamaCppClient{
 		HttpClient: http.DefaultClient,
 		LlamaCppConfiguration: &llamacpp.LlamaCppConfiguration{
@@ -40,9 +45,9 @@ var jsonSchemaMapper *JsonSchemaMapper = &JsonSchemaMapper{
 ### Extracting Structured Data from String
 
 ```go
-responseChannel := make(chan JsonSchemaMapperResult)
+responseChannel := make(chan EntityExtractorResult)
 
-go jsonSchemaMapper.MapToSchema(
+go entityExtractor.ExtractFromString(
 	responseChannel,
 	map[string]any{
 		"type": "object",
