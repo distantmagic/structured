@@ -1,4 +1,4 @@
-# Instructor Go (work in progress)
+# Structured (work in progress)
 
 Go conversion of https://github.com/jxnl/instructor/
 
@@ -23,12 +23,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/distantmagic/instructor-go/instructor"
+	"github.com/distantmagic/structured/structured"
 	"github.com/distantmagic/paddler/llamacpp"
 	"github.com/distantmagic/paddler/netcfg"
 )
 
-var entityExtractor *EntityExtractor = &instructor.EntityExtractor{
+var entityExtractor *EntityExtractor = &structured.EntityExtractor{
 	LlamaCppClient: &llamacpp.LlamaCppClient{
 		HttpClient: http.DefaultClient,
 		LlamaCppConfiguration: &llamacpp.LlamaCppConfiguration{
@@ -45,9 +45,9 @@ var entityExtractor *EntityExtractor = &instructor.EntityExtractor{
 ### Extracting Structured Data from String
 
 ```go
-import "github.com/distantmagic/instructor-go/instructor"
+import "github.com/distantmagic/structured/structured"
 
-responseChannel := make(chan instructor.EntityExtractorResult)
+responseChannel := make(chan structured.EntityExtractorResult)
 
 go entityExtractor.ExtractFromString(
 	responseChannel,
@@ -71,7 +71,7 @@ go entityExtractor.ExtractFromString(
 
 for result := range responseChannel {
 	if result.Error != nil {
-		t.Fatal(result.Error)
+		panic(result.Error)
 	}
 
 	// map[name:John, surname:Doe, age:40]
@@ -84,18 +84,18 @@ for result := range responseChannel {
 Once you obtain the result:
 
 ```go
-import "github.com/distantmagic/instructor-go/instructor"
+import "github.com/distantmagic/structured/structured"
 
 type myTestPerson struct {
-	Name   string `json:"name"`
+	Name    string `json:"name"`
 	Surname string `json:"surname"`
-	Age    int    `json:"age"`
+	Age     int    `json:"age"`
 }
 
-func DoUnmarshalsToStruct(result EntityExtractorResult) {
+func DoUnmarshalsToStruct(result structured.EntityExtractorResult) {
 	var person myTestPerson
 
-	err := instructor.UnmarshalToStruct(result, &person)
+	err := structured.UnmarshalToStruct(result, &person)
 
 	if nil != err {
 		panic(err)

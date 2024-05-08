@@ -1,4 +1,4 @@
-package instructor
+package structured
 
 import (
 	"testing"
@@ -24,4 +24,5 @@ func TestUnmarshalsToStruct(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "John", person.Name)
 	assert.Equal(t, "Doe", person.Surname)
+	assert.Equal(t, 40, person.Age)
 }

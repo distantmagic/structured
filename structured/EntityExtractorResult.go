@@ -1,4 +1,4 @@
-package instructor
+package structured
 
 type EntityExtractorResult struct {
 	Content string

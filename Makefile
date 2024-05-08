@@ -1,16 +1,16 @@
-.DEFAULT_GOAL := paddler
+.DEFAULT_GOAL := structured
 
 GO_SOURCES := \
 	$(wildcard *.go) \
 	$(wildcard */*.go)
 
-paddler: $(GO_SOURCES)
-	go build -o paddler
+structured: $(GO_SOURCES)
+	go build -o structured
 
 .PHONY: clean
 clean:
 	rm -f log.db
-	rm -f paddler
+	rm -f structured
 	rm -rf snapshots
 	rm -f stable.db
 

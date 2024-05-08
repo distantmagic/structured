@@ -1,4 +1,4 @@
-module github.com/distantmagic/instructor-go
+module github.com/distantmagic/structured
 
 go 1.21.8
 

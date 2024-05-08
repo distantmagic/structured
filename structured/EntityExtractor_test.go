@@ -1,4 +1,4 @@
-package instructor
+package structured
 
 import (
 	"net/http"
