@@ -1,17 +1,16 @@
 # Instructor Go (work in progress)
 
-Go converstion of https://github.com/jxnl/instructor/
+Go conversion of https://github.com/jxnl/instructor/
 
 Same features, Go-like API. Model agnostic - maps data from arbitrary JSON
 schema to arbitrary Go struct.
 
-Focused on [llama.cpp](https://github.com/ggerganov/llama.cpp). Support for
-other kind of vendor APIs (like OpenAI or Anthropic might be added in the
-future.
+It is focused on [llama.cpp](https://github.com/ggerganov/llama.cpp). Support
+for other vendor APIs (like OpenAI or Anthropic) might be added in the future.
 
 ## Usage
 
-API can probably change with time until all features are implemented.
+API can change with time until all features are implemented.
 
 ### Initializing the Mapper
 
