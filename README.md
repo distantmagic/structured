@@ -1,14 +1,53 @@
 # Structured (work in progress)
 
-Go conversion of https://github.com/jxnl/instructor/
+The project started as a Go conversion of https://github.com/jxnl/instructor/,
+but it is a more general-purpose library.
+
+It also features a language-agnostic HTTP server that you can set up in front
+of [llama.cpp](https://github.com/ggerganov/llama.cpp).
 
 Same features, Go-like API. Model agnostic - maps data from arbitrary JSON
-schema to arbitrary Go struct.
+schema to arbitrary Go struct (or just plain JSON).
 
 It is focused on [llama.cpp](https://github.com/ggerganov/llama.cpp). Support
 for other vendor APIs (like OpenAI or Anthropic) might be added in the future.
 
-## Usage
+## HTTP API
+
+Start a server and point it to your local
+[llama.cpp](https://github.com/ggerganov/llama.cpp) instance:
+
+```shell
+./structured \
+	--llamacpp-host 127.0.0.1 \
+	--llamacpp-port 8081
+```
+
+Now, you can issue requests. Include `schema` and `data` in your POST body.
+The server will respond with JSON matching your schema:
+
+```
+POST /extract/entity
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "hello": {
+        "type": "string"
+      }
+    },
+    "required": ["hello"]
+  },
+  "data": "Say 'world'"
+}
+
+Response:
+{
+  "hello": "world"
+}
+```
+
+## Programmatic Usage
 
 API can change with time until all features are implemented.
 
@@ -105,4 +144,4 @@ func DoUnmarshalsToStruct(result structured.EntityExtractorResult) {
 	person.Name // John
 	person.Surname // Doe
 }
-```
+```This channel is about Structured - language agnostic data mapper (work in progress). It aims
