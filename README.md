@@ -20,14 +20,18 @@ Start a server and point it to your local
 ```shell
 ./structured \
 	--llamacpp-host 127.0.0.1 \
-	--llamacpp-port 8081
+	--llamacpp-port 8081 \
+	--port 8080
 ```
+
+Structured server connects to
+[llama.cpp](https://github.com/ggerganov/llama.cpp) to extract the data.
 
 Now, you can issue requests. Include `schema` and `data` in your POST body.
 The server will respond with JSON matching your schema:
 
 ```
-POST /extract/entity
+POST http://127.0.0.1:8080/extract/entity
 {
   "schema": {
     "type": "object",
@@ -40,9 +44,7 @@ POST /extract/entity
   },
   "data": "Say 'world'"
 }
-```
 
-```
 Response:
 {
   "hello": "world"
@@ -147,3 +149,9 @@ func DoUnmarshalsToStruct(result structured.EntityExtractorResult) {
 	person.Surname // Doe
 }
 ```
+
+## See Also
+
+[Paddler](https://github.com/distantmagic/paddler) - (work in progress)
+	[llama.cpp](https://github.com/ggerganov/llama.cpp) load balancer,
+	supervisor and request queue
