@@ -155,3 +155,7 @@ func DoUnmarshalsToStruct(result structured.EntityExtractorResult) {
 [Paddler](https://github.com/distantmagic/paddler) - (work in progress)
 	[llama.cpp](https://github.com/ggerganov/llama.cpp) load balancer,
 	supervisor and request queue
+
+## Community
+
+- [Discord](https://discord.gg/kysUzFqSCK)
