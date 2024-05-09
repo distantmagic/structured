@@ -14,6 +14,16 @@ for other vendor APIs (like OpenAI or Anthropic) might be added in the future.
 
 ## HTTP API
 
+```mermaid
+sequenceDiagram
+    You->>Structured: JSON schema + data
+    Structured->>llama.cpp: extract
+    llama.cpp->>Structured: extracted entity
+    Structured->>Structured: validates extracted entity (double check)
+    Structured-->>llama.cpp: retry if validation fails
+    Structured->>You: JSON matching your schema schema
+```
+
 Start a server and point it to your local
 [llama.cpp](https://github.com/ggerganov/llama.cpp) instance:
 
