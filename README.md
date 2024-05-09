@@ -40,7 +40,9 @@ POST /extract/entity
   },
   "data": "Say 'world'"
 }
+```
 
+```
 Response:
 {
   "hello": "world"
@@ -144,4 +146,4 @@ func DoUnmarshalsToStruct(result structured.EntityExtractorResult) {
 	person.Name // John
 	person.Surname // Doe
 }
-```This channel is about Structured - language agnostic data mapper (work in progress). It aims
+```
