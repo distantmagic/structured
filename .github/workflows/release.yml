@@ -22,7 +22,7 @@ jobs:
 
       - name: Build
         run: |
-          go build -o structured-bin-linux-x64 ./...
+          go build -o structured-bin-linux-x64 .
 
       - name: Create Release
         id: create_release
