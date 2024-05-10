@@ -12,7 +12,7 @@ schema to arbitrary Go struct (or just plain JSON).
 It is focused on [llama.cpp](https://github.com/ggerganov/llama.cpp). Support
 for other vendor APIs (like OpenAI or Anthropic) might be added in the future.
 
-## HTTP API
+## How it works
 
 ```mermaid
 sequenceDiagram
@@ -23,6 +23,8 @@ sequenceDiagram
     Structured-->>llama.cpp: retry if validation fails
     Structured->>You: JSON matching your schema schema
 ```
+
+## HTTP API
 
 Start a server and point it to your local
 [llama.cpp](https://github.com/ggerganov/llama.cpp) instance:
