@@ -1,16 +1,41 @@
 # Structured (work in progress)
 
+Extracts structured data from unstructured input. Programming language
+agnostic. Uses [llama.cpp](https://github.com/ggerganov/llama.cpp).
+
+## About Structured
+
 The project started as a Go conversion of https://github.com/jxnl/instructor/,
-but it is a more general-purpose library.
+but evolved in a more general-purpose library.
+
+Structured maps data from arbitrary JSON schema to arbitrary Go struct (or just
+plain JSON).
 
 It also features a language-agnostic HTTP server that you can set up in front
 of [llama.cpp](https://github.com/ggerganov/llama.cpp).
 
-Same features, Go-like API. Model agnostic - maps data from arbitrary JSON
-schema to arbitrary Go struct (or just plain JSON).
-
 It is focused on [llama.cpp](https://github.com/ggerganov/llama.cpp). Support
 for other vendor APIs (like OpenAI or Anthropic) might be added in the future.
+
+### Key Features
+
+1. Language-agnostic HTTP server
+2. Go library with a simple API
+3. Model agnostic
+4. Focused on [llama.cpp](https://github.com/ggerganov/llama.cpp)
+
+## Installation
+
+Download the latest release from the
+[releases page](https://github.com/distantmagic/structured/releases).
+
+Alternatively you can clone the repository and build it yourself:
+
+```shell
+git clone git@github.com:distantmagic/structured.git
+cd structured
+go build
+```
 
 ## How It Works
 
@@ -39,10 +64,13 @@ Start a server and point it to your local
 Structured server connects to
 [llama.cpp](https://github.com/ggerganov/llama.cpp) to extract the data.
 
-Now, you can issue requests. Include `schema` and `data` in your POST body.
+### Extract Entity
+
+Include `schema` and `data` in your POST body.
 The server will respond with JSON matching your schema:
 
 ```
+Request:
 POST http://127.0.0.1:8080/extract/entity
 {
   "schema": {
@@ -64,6 +92,8 @@ Response:
 ```
 
 ## Programmatic Usage
+
+Instead of using the HTTP API, you can use the Go library directly.
 
 API can change with time until all features are implemented.
 
@@ -99,6 +129,9 @@ var entityExtractor *EntityExtractor = &structured.EntityExtractor{
 ```
 
 ### Extracting Structured Data from String
+
+After initializing the mapper, you can extract structured data from a string
+by providing a JSON schema and the string:
 
 ```go
 import "github.com/distantmagic/structured/structured"
@@ -137,7 +170,7 @@ for result := range responseChannel {
 
 ### Mapping Extracted Result onto an Arbitrary Struct
 
-Once you obtain the result:
+Once you obtain the result you can map it to an arbitrary struct:
 
 ```go
 import "github.com/distantmagic/structured/structured"
